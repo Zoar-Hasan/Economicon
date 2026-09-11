@@ -496,4 +496,4 @@ warn_on_root = 1
 #
 #   Environment variable overrides have priority over profile overrides.
 android.archs = arm64-v8a
-requirements = python3==3.11.9,hostpython3==3.11.9,kivy
+requirements = python3,kivy
