@@ -37,6 +37,17 @@ jobs:
           pip install buildozer
 
       - name: Build with Buildozer
+        run: yes | buildozer -v android debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Economicon-APK
+          path: bin/*.apk
+          pip install buildozer
+
+      - name: Build with Buildozer
         run: |
           yes | buildozer -v android debug
 
