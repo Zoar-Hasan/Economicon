@@ -2,6 +2,7 @@ name: Build Android APK
 
 on:
   push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -15,25 +16,29 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: "temurin"
+          java-version: "17"
 
       - name: Install System Dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y git zip unzip autoconf libtool pkg-config zlib1g-dev \
-            libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev \
-            libltdl-dev
+        run: sudo apt update && sudo apt install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev libltdl-dev
 
       - name: Install Buildozer and Cython
-        run: |
-          pip install --upgrade pip
-          pip install Cython==0.29.36
+        run: pip install --upgrade pip && pip install Cython==0.29.36 && pip install buildozer
+
+      - name: Build with Buildozer
+        run: buildozer -v android debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Economicon-APK
+          path: bin/*.apk
           pip install buildozer
 
       - name: Build with Buildozer
